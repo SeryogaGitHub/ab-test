@@ -144,7 +144,7 @@ function readyjQueryinit(){
     creditInfoPriceClass:'price_number',
   });
   let addElement = function(){
-    if (document.querySelector('.credit-information') !== null){
+    if (document.querySelector('.credit-information .button') !== null){
       if(document.querySelector('.product-additional-actions') !== null){
 
         newOffer.init();
@@ -167,7 +167,7 @@ function readyjQueryinit(){
       console.log('block added');
 
     } else {
-      if (document.querySelector('.credit-information') !== null){
+      if (document.querySelector('.credit-information .button') !== null){
         console.log('block to add did not appear');
         return false;
       }
