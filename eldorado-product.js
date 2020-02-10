@@ -144,13 +144,15 @@ function readyjQueryinit(){
     creditInfoPriceClass:'price_number',
   });
   let addElement = function(){
-    if(document.querySelector('.product-additional-actions') !== null){
+    if (document.querySelector('.credit-information') !== null){
+      if(document.querySelector('.product-additional-actions') !== null){
 
-      newOffer.init();
-      clearInterval(newInterval);
-    }else {
-      console.log('no');
-      return
+        newOffer.init();
+        clearInterval(newInterval);
+      }else {
+        console.log('no');
+        return
+      }
     }
   };
 
@@ -164,9 +166,11 @@ function readyjQueryinit(){
       clearInterval(btnInterval);
       console.log('block added');
 
-    }else {
-      console.log('block to add did not appear');
-      return false;
+    } else {
+      if (document.querySelector('.credit-information') !== null){
+        console.log('block to add did not appear');
+        return false;
+      }
     }
   };
   let newInterval = setInterval(addElement,50);
