@@ -200,6 +200,7 @@ function readyjQueryinit() {
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
+      display: inline-block;
       max-width: 93px
     }
     `;
