@@ -196,6 +196,12 @@ function readyjQueryinit() {
     #design-materials-gemstones .open-cart-btn{
       background: #22425C;
     }
+    .nowrap{
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 93px
+    }
     `;
   styles += "</style>";
   $('body').append(styles);
@@ -233,7 +239,7 @@ function readyjQueryinit() {
             <div>
               Material:
               <span class="text">
-                ${materialActive} 
+                <span class="nowrap">${materialActive}</span>
                 <svg width="6" height="11" viewBox="0 0 6 11" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M0 9.36623L0.910026 10.2857L6 5.14286L0.910026 0L0 0.919481L4.17995 5.14286L0 9.36623H0Z" fill="black"/>
                 </svg>
@@ -250,7 +256,7 @@ function readyjQueryinit() {
             <div>
               Gemstone:
               <span class="text">
-                ${gemstoneActive}
+                <span class="nowrap">${gemstoneActive}</span>
                 
                 <svg width="6" height="11" viewBox="0 0 6 11" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M0 9.36623L0.910026 10.2857L6 5.14286L0.910026 0L0 0.919481L4.17995 5.14286L0 9.36623H0Z" fill="black"/>
