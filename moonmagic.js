@@ -31,10 +31,179 @@ if (!window.jQuery) {
 }
 
 function readyjQueryinit() {
-  function addElementsAB(){
-    $("#design-materials-gemstones, #ab-test").remove();
+  let styles = "<style id='ab-test'>";
+  styles += `
+    #design-materials-gemstones{
+      position: fixed;
+      z-index: 1027;
+      width: 100%;
+      left: 0;
+      bottom: 0;
+      background: #fff;
+      padding-top: 5px;
+      box-shadow: 0px -4px 20px rgba(0, 0, 0, 0.1);
+      font-family: Montserrat, sans-serif;
+    }
+    #design-materials-gemstones *{
+      letter-spacing: 0;
+      font-weight: 500;
+      font-family: Montserrat, sans-serif;
+    }
+    #design-materials-gemstones h2{
+      font-style: normal;
+      font-weight: 500;
+      font-size: 12px;
+      line-height: 15px;
+      color: #5C5C5C;
+      text-transform: inherit;
+      text-align: center;
+      padding: 0 10px;
+      margin-bottom: 0px;
+    }
+    #design-materials-gemstones .element-container{
+       position: relative;
+    }
+    #design-materials-gemstones .materials-container .text{
+      display: block;
+    }
+    #design-materials-gemstones .toggle .variant__swatch{
+      border-radius: 50%;
+      width: 38px;
+      height: 38px;
+    }
+    #design-materials-gemstones .klaviyo-bis-trigger{
+      display: none;
+      font-size: 10px;
+      margin-top: 0;
+    }
+    #design-materials-gemstones .toggle{
+      text-align: left;
+      background: #fff;
+      border: none;
+      font-weight: 500;
+      font-size: 12px;
+      line-height: 13px;
+      color: #5C5C5C;
+      display: flex;
+      align-items: center;
+      padding: 0;
+    }
+    #design-materials-gemstones .toggle .text{
+      color: #000;
+      font-size: 12px;
+      display: block;
+    }
+    #design-materials-gemstones .list{
+      position: absolute;
+      bottom: 100%;
+      background: #fff;
+      width: 100%;
+      left: 0;
+      padding: 10px;
+      display: none;
+    }
+    #design-materials-gemstones .wrap-container > *{
+      flex: 1;
+    }
+    #design-materials-gemstones .wrap-container{
+      display: flex;
+      position: relative;
+    }
+    #design-materials-gemstones .wrap-container.top > *{
+      padding: 5px 10px;
+    }
+    #design-materials-gemstones .list li{
+      cursor: pointer;
+    }
+    #design-materials-gemstones .list a{
+      min-width: 38px;
+      height: 38px;
+    }
+    #design-materials-gemstones .list a + span{
+      font-size: 12px;
+      color: #000;
+    }
+    #design-materials-gemstones .wrap-container .variant__item{
+      display: flex;
+      align-items: center;
+    }
+    #design-materials-gemstones .size-container{
+      max-width: 70px;
+    }
+    #design-materials-gemstones .size-container .toggle{
+      width: 100%;
+      border: 1px solid #E5E5E5;
+      height: 48px;
+      justify-content: space-around;
+      padding: 0 5px;
+    }
+    #design-materials-gemstones .size-container .list a{
+      margin-right: 0;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    #design-materials-gemstones .size-container .text{
+      font-size: 16px;
+      font-weight: 500;
+      justify-content: space-around;
+      margin-top: 3px;
+    }
+    #design-materials-gemstones .open-cart-btn,
+    #design-materials-gemstones .add-design{
+      border: none;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      font-size: 14px;
+      text-transform: uppercase;
+      text-align: left;
+      padding: 0;
+    }
+    #design-materials-gemstones .open-cart-btn .image,
+    #design-materials-gemstones .add-design .image{
+      position: relative;
+      display: flex;
+      align-items: center;
+      width: 50px;
+      height: 40px;
+      justify-content: center;
+      margin-right: 10px;
+    }
+    #design-materials-gemstones .add-design{
+      background: #FFC4B7;
+    }
+    #design-materials-gemstones .open-cart-btn .count{
+      position: absolute;
+      top: 0px;
+      min-width: 21px;
+      height: 21px;
+      border-radius: 50%;
+      background: #FFC4B7;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      right: 0px;
+      color: #22425C;
+    }
+    #design-materials-gemstones .open-cart-btn .cart-count{
+      position: relative;
+      height: 30px;
+      display: flex;
+      align-items: flex-end;
+    }
+    #design-materials-gemstones .open-cart-btn{
+      background: #22425C;
+    }
+    `;
+  styles += "</style>";
+  $('body').append(styles);
 
-    // materials elements
+  let html = '<div id="design-materials-gemstones"></div>';
+  $('body').append(html);
+
+  function addElementsAB() {
     let materialsList = $('#variant-container .variant__list--material').html();
     let materialActive = $('#variant-container .variant__list--material .variant__label-current').html();
     let materialActiveElement = $('#variant-container .variant__list--material .active').parent().html();
@@ -51,8 +220,9 @@ function readyjQueryinit() {
     // count element in cart
     let cartCount = $('.site-nav__mobile-right .cart-button-header').text();
 
-    let html = `
-    <div id="design-materials-gemstones">
+    // console.log(cartCount.trim().length);
+
+    let htmlInner = `
       <h2 class="title">Order different materials and gemstones in this design:</h2>
       
       <div class="wrap-container top">
@@ -125,7 +295,9 @@ function readyjQueryinit() {
            </div>
         </button>
         
-        <button class="open-cart-btn">
+        <a class="klaviyo-bis-trigger button button--add-to-cart button--klaviyo-bis" href="#">Notify me when available</a>
+        
+        <button class="open-cart-btn" id="js-pp-add-to-cart-bar-mobile">
           <span class="image">
             <span class="count">${cartCount}</span>
             
@@ -141,174 +313,15 @@ function readyjQueryinit() {
            </div>
         </button>
       </div>
-    </div>
   `;
 
-    $('body').append(html);
+    $('#design-materials-gemstones').html(htmlInner);
 
-    let styles = "<style id='ab-test'>";
-    styles += `
-	#design-materials-gemstones{
-	  position: fixed;
-    z-index: 1027;
-    width: 100%;
-    left: 0;
-    bottom: 0;
-    background: #fff;
-    padding-top: 5px;
-    box-shadow: 0px -4px 20px rgba(0, 0, 0, 0.1);
-    font-family: Montserrat, sans-serif;
-	}
-	#design-materials-gemstones *{
-	  letter-spacing: 0;
-    font-weight: 500;
-    font-family: Montserrat, sans-serif;
-	}
-	#design-materials-gemstones h2{
-    font-style: normal;
-    font-weight: 500;
-    font-size: 12px;
-    line-height: 15px;
-    color: #5C5C5C;
-    text-transform: inherit;
-    text-align: center;
-    padding: 0 10px;
-    margin-bottom: 0px;
-  }
-  #design-materials-gemstones .element-container{
-     position: relative;
-  }
-  #design-materials-gemstones .materials-container .text{
-    display: block;
-  }
-  #design-materials-gemstones .toggle .variant__swatch{
-    border-radius: 50%;
-    width: 38px;
-    height: 38px;
-  }
-  #design-materials-gemstones .toggle{
-    text-align: left;
-    background: #fff;
-    border: none;
-    font-weight: 500;
-    font-size: 12px;
-    line-height: 13px;
-    color: #5C5C5C;
-    display: flex;
-    align-items: center;
-    padding: 0;
-  }
-  #design-materials-gemstones .toggle .text{
-    color: #000;
-    font-size: 12px;
-    display: block;
-  }
-  #design-materials-gemstones .list{
-    position: absolute;
-    bottom: 100%;
-    background: #fff;
-    width: 100%;
-    left: 0;
-    padding: 10px;
-    display: none;
-  }
-  #design-materials-gemstones .wrap-container > *{
-    flex: 1;
-  }
-  #design-materials-gemstones .wrap-container{
-    display: flex;
-    position: relative;
-  }
-  #design-materials-gemstones .wrap-container.top > *{
-    padding: 5px 10px;
-  }
-  #design-materials-gemstones .list li{
-    cursor: pointer;
-  }
-  #design-materials-gemstones .list a{
-    min-width: 38px;
-    height: 38px;
-  }
-  #design-materials-gemstones .list a + span{
-    font-size: 12px;
-    color: #000;
-  }
-  #design-materials-gemstones .wrap-container .variant__item{
-    display: flex;
-    align-items: center;
-  }
-  #design-materials-gemstones .size-container{
-    max-width: 70px;
-  }
-  #design-materials-gemstones .size-container .toggle{
-    width: 100%;
-    border: 1px solid #E5E5E5;
-    height: 48px;
-    justify-content: space-around;
-    padding: 0 5px;
-  }
-  #design-materials-gemstones .size-container .list a{
-    margin-right: 0;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  #design-materials-gemstones .size-container .text{
-    font-size: 16px;
-    font-weight: 500;
-    justify-content: space-around;
-    margin-top: 3px;
-  }
-  #design-materials-gemstones .open-cart-btn,
-  #design-materials-gemstones .add-design{
-    border: none;
-    color: #fff;
-    display: flex;
-    align-items: center;
-    font-size: 14px;
-    text-transform: uppercase;
-    text-align: left;
-    padding: 0;
-  }
-  #design-materials-gemstones .open-cart-btn .image,
-  #design-materials-gemstones .add-design .image{
-    position: relative;
-    display: flex;
-    align-items: center;
-    width: 50px;
-    height: 40px;
-    justify-content: center;
-    margin-right: 10px;
-  }
-  #design-materials-gemstones .add-design{
-    background: #FFC4B7;
-  }
-  #design-materials-gemstones .open-cart-btn .count{
-    position: absolute;
-    top: 0px;
-    min-width: 21px;
-    height: 21px;
-    border-radius: 50%;
-    background: #FFC4B7;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    right: 0px;
-    color: #22425C;
-  }
-  #design-materials-gemstones .open-cart-btn .cart-count{
-    position: relative;
-    height: 30px;
-    display: flex;
-    align-items: flex-end;
-  }
-  #design-materials-gemstones .open-cart-btn{
-    background: #22425C;
-  }
-	`;
-    styles += "</style>";
-    $('body').append(styles);
+    if(cartCount.trim().length){
+      $('#design-materials-gemstones .open-cart-btn .count').show();
+    } else {
+      $('#design-materials-gemstones .open-cart-btn .count').hide();
+    }
 
     // добавити матеріали
     $('.materials-container .list a').each(function () {
@@ -322,36 +335,71 @@ function readyjQueryinit() {
       $(this).after(`<span>${text}</span>`)
     });
 
-    $('#design-materials-gemstones').on('click', '.toggle', function (e) {
-      $(this).next().stop().slideToggle(1000);
+    $('#design-materials-gemstones .toggle').on('click', function (e) {
+      $(this).next().stop().slideToggle(300);
     });
 
     $('#design-materials-gemstones .list a').on('click', function (e) {
       e.preventDefault();
     });
 
-    $('#design-materials-gemstones .open-cart-btn').on('click', function () {
-      $('.cart-button-header').click();
-    });
-
+    // вибрати матеріал
     $('#design-materials-gemstones .materials-container .list').on('click', 'li', function () {
       let id = $(this).index();
       $(`#variant-container .variant__list--material li:eq(${id}) a`).click();
       addElementsAB();
     });
 
+    // вибрати камінь
     $('#design-materials-gemstones .gemstone-container .list').on('click', 'li', function () {
       let id = $(this).index();
       $(`#variant-container .variant__list--gemstone li:eq(${id}) a`).click();
       addElementsAB();
     });
 
+    // вибрати розмір
     $('#design-materials-gemstones .size-container .list').on('click', 'li', function () {
       let id = $(this).index();
       $(`#variant-container .variant__list--size li:eq(${id}) a`).click();
       addElementsAB();
     });
+
+    $('.product__form--main .button--add-to-cart, #overlay, #cartPopup, #design-materials-gemstones .add-design').on('click', function () {
+      setTimeout(function () {
+        let newCartCount = $('.site-nav__mobile-right .cart-button-header').text();
+        $('#design-materials-gemstones .open-cart-btn .count').text(newCartCount);
+      }, 1000);
+    });
+
+    $('#design-materials-gemstones .open-cart-btn').on('click', function () {
+      $('.product__form--main .button--add-to-cart').click();
+    });
+
+    $('#design-materials-gemstones .add-design').on('click', function () {
+      $('.product__form--main .button--add-to-cart').click();
+      $('#cartPopup, #overlay').hide();
+
+      setTimeout(function () {
+        $('#overlay').removeClass("overlay--active");
+        $('#cartPopup').removeClass("cart-popup--active")
+        $('#cartPopup, #overlay').removeAttr('style');
+      }, 1500);
+    });
+
+    let notify = $('.product__form--main .klaviyo-bis-trigger');
+    if(notify.css('display') === 'inline-block'){
+      $('#design-materials-gemstones .add-design').hide();
+      $('#design-materials-gemstones .klaviyo-bis-trigger').show();
+    } else {
+      $('#design-materials-gemstones .add-design').show();
+      $('#design-materials-gemstones .klaviyo-bis-trigger').hide();
+    }
   }
 
   addElementsAB();
+
+  // клік по елементам на сторінці
+  $('#variant-container .variant__link').on('click', function () {
+    addElementsAB();
+  });
 }
