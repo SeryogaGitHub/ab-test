@@ -119,9 +119,10 @@ function readyjQueryinit() {
       min-width: 38px;
       height: 38px;
     }
-    #design-materials-gemstones .list a + span{
+    #design-materials-gemstones .list a + a{
       font-size: 12px;
       color: #000;
+      height: initial;
     }
     #design-materials-gemstones .wrap-container .variant__item{
       display: flex;
@@ -160,6 +161,7 @@ function readyjQueryinit() {
       text-transform: uppercase;
       text-align: left;
       padding: 0;
+      min-height: 48px;
     }
     #design-materials-gemstones .open-cart-btn .image,
     #design-materials-gemstones .add-design .image{
@@ -203,6 +205,21 @@ function readyjQueryinit() {
       display: inline-block;
       max-width: 93px
     }
+    @media(max-width: 420px) {
+		#design-materials-gemstones .klaviyo-bis-trigger.button.button--add-to-cart.button--klaviyo-bis {
+			line-height: 1.2;
+			padding-top: 4%;
+		}
+    }
+    @media(max-width: 360px) {
+    	#design-materials-gemstones .open-cart-btn, #design-materials-gemstones .add-design {
+    		font-size: 12px;
+    	}
+    	#design-materials-gemstones .open-cart-btn .image, #design-materials-gemstones .add-design .image {
+    		width: 40px;
+    		margin-right: 5px;
+    	}
+    }
     `;
   styles += "</style>";
   $('body').append(styles);
@@ -227,30 +244,12 @@ function readyjQueryinit() {
     // count element in cart
     let cartCount = $('.site-nav__mobile-right .cart-button-header').text();
 
-    // console.log(cartCount.trim().length);
-
-    let htmlInner = `
-      <h2 class="title">Order different materials and gemstones in this design:</h2>
-      
-      <div class="wrap-container top">
-        <div class="materials-container element-container">
-          <button class="toggle">
-            <div>${materialActiveElement}</div>
-            
-            <div>
-              Material:
-              <span class="text">
-                <span class="nowrap">${materialActive}</span>
-                <svg width="6" height="11" viewBox="0 0 6 11" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M0 9.36623L0.910026 10.2857L6 5.14286L0.910026 0L0 0.919481L4.17995 5.14286L0 9.36623H0Z" fill="black"/>
-                </svg>
-              </span>
-            </div>
-          </button>
-          <div class="list">${materialsList}</div>
-        </div>
-        
-        <div class="gemstone-container element-container">
+    // перевірка чи є gemstone
+    let gemstoneCount = $('#variant_crosslink_gemstone li').length;
+    let gemstone = '';
+    if(gemstoneCount){
+      gemstone = `
+      <div class="gemstone-container element-container">
           <button class="toggle">
             <div>${gemstoneActiveElement}</div>
             
@@ -267,24 +266,65 @@ function readyjQueryinit() {
           </button>
           <div class="list">${gemstoneList}</div>
         </div>
+    `;
+    }
+
+    // перевірка чи є material
+    let materialCount = $('#variant-container .variant__list--material li').length;
+    let material = '';
+    if(materialCount){
+      material = `
+      <div class="materials-container element-container">
+          <button class="toggle">
+            <div>${materialActiveElement}</div>
+            
+            <div>
+              Material:
+              <span class="text">
+                <span class="nowrap">${materialActive}</span>
+                <svg width="6" height="11" viewBox="0 0 6 11" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M0 9.36623L0.910026 10.2857L6 5.14286L0.910026 0L0 0.919481L4.17995 5.14286L0 9.36623H0Z" fill="black"/>
+                </svg>
+              </span>
+            </div>
+          </button>
+          <div class="list">${materialsList}</div>
+        </div>
+    `;
+    }
+
+    // перевірка чи є size
+    let sizeCount = $('#variant-container .variant__list--size li').length;
+    let size = '';
+    if(sizeCount){
+      size = `
+      <div class="size-container element-container">
+        <button class="toggle">
+          <div>
+            Size:
+            <span class="text">
+              ${sizeActive}
+            </span>
+          </div>
+          
+          <svg width="8" height="6" viewBox="0 0 8 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M4 6L0.535899 -6.52533e-07L7.4641 -4.68497e-08L4 6Z" fill="#C4C4C4"/>
+          </svg>
+        </button>
+        <div class="list">${sizeList}</div>
+      </div>
+    `;
+    }
+
+    let htmlInner = `
+      
+      <div class="wrap-container top">
+        ${material}
+        ${gemstone}
       </div>
       
       <div class="wrap-container">
-        <div class="size-container element-container">
-          <button class="toggle">
-            <div>
-              Size:
-              <span class="text">
-                ${sizeActive}
-              </span>
-            </div>
-            
-            <svg width="8" height="6" viewBox="0 0 8 6" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M4 6L0.535899 -6.52533e-07L7.4641 -4.68497e-08L4 6Z" fill="#C4C4C4"/>
-            </svg>
-          </button>
-          <div class="list">${sizeList}</div>
-        </div>
+        ${size}
         
         <button class="add-design">
           <span class="image">
@@ -324,52 +364,67 @@ function readyjQueryinit() {
 
     $('#design-materials-gemstones').html(htmlInner);
 
+    // показувати якщо більше 1 товара в козині
     if(cartCount.trim().length){
       $('#design-materials-gemstones .open-cart-btn .count').show();
     } else {
       $('#design-materials-gemstones .open-cart-btn .count').hide();
     }
 
-    // добавити матеріали
-    $('.materials-container .list a').each(function () {
-      let text = $(this).attr('data-value');
-      $(this).after(`<span>${text}</span>`)
-    });
+    if(materialCount) {
+      // добавити матеріали
+      $('.materials-container .list a').each(function () {
+        let text = $(this).attr('data-value');
+        let newLink = $(this).attr('href');
+        $(this).after(`<a href="${newLink}">${text}</a>`)
+      });
+    }
 
-    // add gemstone
-    $('.gemstone-container .list a').each(function () {
-      let text = $(this).attr('title');
-      $(this).after(`<span>${text}</span>`)
-    });
+    if(gemstoneCount) {
+      // add gemstone
+      $('.gemstone-container .list a').each(function () {
+        let text = $(this).attr('title');
+        let newLink = $(this).attr('href');
+        $(this).after(`<a href="${newLink}">${text}</a>`)
+      });
+    }
 
+    // dropdown
     $('#design-materials-gemstones .toggle').on('click', function (e) {
       $(this).next().stop().slideToggle(300);
     });
 
-    $('#design-materials-gemstones .list a').on('click', function (e) {
+    $('#design-materials-gemstones .size-container a, #design-materials-gemstones .materials-container a').on('click', function (e) {
       e.preventDefault();
     });
 
-    // вибрати матеріал
-    $('#design-materials-gemstones .materials-container .list').on('click', 'li', function () {
-      let id = $(this).index();
-      $(`#variant-container .variant__list--material li:eq(${id}) a`).click();
-      addElementsAB();
-    });
+    if(materialCount) {
+      // вибрати матеріал
+      $('#design-materials-gemstones .materials-container .list').on('click', 'li', function () {
+        let id = $(this).index();
+        $(`#variant-container .variant__list--material li:eq(${id}) a`).click();
+        addElementsAB();
+      });
+    }
 
-    // вибрати камінь
-    $('#design-materials-gemstones .gemstone-container .list').on('click', 'li', function () {
-      let id = $(this).index();
-      $(`#variant-container .variant__list--gemstone li:eq(${id}) a`).click();
-      addElementsAB();
-    });
+    if(gemstoneCount) {
+      // вибрати камінь
+      $('#design-materials-gemstones .gemstone-container .list').on('click', 'li', function () {
+        let id = $(this).index();
+        $(`#variant-container .variant__list--gemstone li:eq(${id}) a`).click();
+        console.log(id);
+        addElementsAB();
+      });
+    }
 
-    // вибрати розмір
-    $('#design-materials-gemstones .size-container .list').on('click', 'li', function () {
-      let id = $(this).index();
-      $(`#variant-container .variant__list--size li:eq(${id}) a`).click();
-      addElementsAB();
-    });
+    if(sizeCount) {
+      // вибрати розмір
+      $('#design-materials-gemstones .size-container .list').on('click', 'li', function () {
+        let id = $(this).index();
+        $(`#variant-container .variant__list--size li:eq(${id}) a`).click();
+        addElementsAB();
+      });
+    }
 
     $('.product__form--main .button--add-to-cart, #overlay, #cartPopup, #design-materials-gemstones .add-design').on('click', function () {
       setTimeout(function () {
