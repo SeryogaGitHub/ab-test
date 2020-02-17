@@ -61,7 +61,9 @@ function readyjQueryinit() {
       margin-bottom: 0px;
     }
     #design-materials-gemstones .element-container{
+       max-width: 100%;
        position: relative;
+       overflow: hidden;
     }
     #design-materials-gemstones .materials-container .text{
       display: block;
@@ -87,11 +89,28 @@ function readyjQueryinit() {
       display: flex;
       align-items: center;
       padding: 0;
+      max-width: 100%;
+    }
+    #design-materials-gemstones .toggle > *{
+      min-width: 0;
+    }
+    #design-materials-gemstones .toggle .text svg{
+      position: absolute;
+      right: 0;
+      top: 1px;
     }
     #design-materials-gemstones .toggle .text{
       color: #000;
       font-size: 12px;
       display: block;
+      position: relative;
+      padding-right: 12px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    #design-materials-gemstones .toggle .inner{
+      min-width: 48px;
     }
     #design-materials-gemstones .list{
       position: absolute;
@@ -198,13 +217,6 @@ function readyjQueryinit() {
     #design-materials-gemstones .open-cart-btn{
       background: #22425C;
     }
-    .nowrap{
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      display: inline-block;
-      max-width: 93px
-    }
     @media(max-width: 420px) {
 		#design-materials-gemstones .klaviyo-bis-trigger.button.button--add-to-cart.button--klaviyo-bis {
 			line-height: 1.2;
@@ -251,12 +263,12 @@ function readyjQueryinit() {
       gemstone = `
       <div class="gemstone-container element-container">
           <button class="toggle">
-            <div>${gemstoneActiveElement}</div>
+            <div class="inner">${gemstoneActiveElement}</div>
             
             <div>
               Gemstone:
               <span class="text">
-                <span class="nowrap">${gemstoneActive}</span>
+                ${gemstoneActive}
                 
                 <svg width="6" height="11" viewBox="0 0 6 11" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M0 9.36623L0.910026 10.2857L6 5.14286L0.910026 0L0 0.919481L4.17995 5.14286L0 9.36623H0Z" fill="black"/>
@@ -276,12 +288,12 @@ function readyjQueryinit() {
       material = `
       <div class="materials-container element-container">
           <button class="toggle">
-            <div>${materialActiveElement}</div>
+            <div class="inner">${materialActiveElement}</div>
             
             <div>
               Material:
               <span class="text">
-                <span class="nowrap">${materialActive}</span>
+                ${materialActive}
                 <svg width="6" height="11" viewBox="0 0 6 11" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M0 9.36623L0.910026 10.2857L6 5.14286L0.910026 0L0 0.919481L4.17995 5.14286L0 9.36623H0Z" fill="black"/>
                 </svg>
