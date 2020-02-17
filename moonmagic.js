@@ -109,7 +109,7 @@ function readyjQueryinit() {
       overflow: hidden;
       text-overflow: ellipsis;
     }
-    #design-materials-gemstones .toggle .inner{
+    #design-materials-gemstones .toggle .item{
       min-width: 48px;
     }
     #design-materials-gemstones .list{
@@ -263,7 +263,7 @@ function readyjQueryinit() {
       gemstone = `
       <div class="gemstone-container element-container">
           <button class="toggle">
-            <div class="inner">${gemstoneActiveElement}</div>
+            <div class="item">${gemstoneActiveElement}</div>
             
             <div>
               Gemstone:
@@ -288,7 +288,7 @@ function readyjQueryinit() {
       material = `
       <div class="materials-container element-container">
           <button class="toggle">
-            <div class="inner">${materialActiveElement}</div>
+            <div class="item">${materialActiveElement}</div>
             
             <div>
               Material:
