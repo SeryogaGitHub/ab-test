@@ -203,6 +203,7 @@ function readyjQueryinit() {
       overflow: hidden;
       text-overflow: ellipsis;
       display: inline-block;
+      max-width: 93px
     }
     @media(max-width: 420px) {
 		#design-materials-gemstones .klaviyo-bis-trigger.button.button--add-to-cart.button--klaviyo-bis {
