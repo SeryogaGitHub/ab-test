@@ -452,12 +452,12 @@ function readyjQueryinit() {
     $('#design-materials-gemstones .add-design').on('click', function () {
       $('.product__form--main .button--add-to-cart').click();
       $('#cartPopup, #overlay').hide();
+    });
 
-      setTimeout(function () {
-        $('#overlay').removeClass("overlay--active");
-        $('#cartPopup').removeClass("cart-popup--active")
-        $('#cartPopup, #overlay').removeAttr('style');
-      }, 1500);
+    $('#js-pp-add-to-cart, #design-materials-gemstones .open-cart-btn').on('click', function () {
+      $('#overlay').removeClass("overlay--active");
+      $('#cartPopup').removeClass("cart-popup--active");
+      $('#cartPopup, #overlay').removeAttr('style');
     });
 
     let notify = $('.product__form--main .klaviyo-bis-trigger');
